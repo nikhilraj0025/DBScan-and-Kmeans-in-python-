@@ -1,0 +1,154 @@
+import pandas as pd
+
+from sklearn.cluster import KMeans 
+
+import matplotlib.pyplot as plt
+
+from matplotlib import style
+
+from matplotlib import pylab
+
+
+
+from sklearn.preprocessing import StandardScaler
+
+
+
+iris1=pd.read_csv(r"C:\Users\AKHIL\Desktop\R csv\iris1.csv")
+
+
+
+i_1=iris1.iloc[:,1:]
+
+i_2=iris1.iloc[:,1:5]
+
+
+
+iris_instance=StandardScaler()
+
+scaled_iris=scaler.fit_transform(i_2)
+
+
+
+
+
+
+
+##############  DBSCAN
+
+db_iris=DBSCAN(eps=0.62,min_samples=3)
+
+mod_db_iris=db_iris.fit(scaled_iris)
+
+abc=mod_db_iris.labels_
+
+abc=pd.DataFrame(abc)
+
+
+
+abcd=pd.concat([i_1,abc],axis=1)
+
+abcd.rename(columns={abcd.columns[5]:"cluster"},inplace=True)
+
+
+
+ird=abcd.cluster.unique()
+
+
+
+kk=list()
+
+for i in ird:
+
+        sub=abcd[(abcd.cluster==i)]
+
+        s=sub.shape[0]
+
+        kk.append(s)
+
+
+
+kk    
+
+data_frame=pd.DataFrame(dict({"clusterNo":ird,"dataentries":kk}))
+
+
+
+data_frame
+
+
+
+##################################################################################################################
+
+
+
+###  Kmeans
+
+
+
+
+
+from sklearn.cluster import KMeans
+
+from sklearn.preprocessing import StandardScaler
+
+
+
+scaler=StandardScaler()
+
+iris_scaled=scaler.fit_transform(i_2)
+
+
+
+
+
+km=list()
+
+nc=range(1,6)
+
+for i in nc:
+
+    iris_km=KMeans(n_clusters=i)
+
+    iris_km.fit(iris_scaled)
+
+    km.append(iris_km)
+
+    
+
+ssr=list()
+
+for i in range(len(km)):
+
+    score=km[i].fit(i_2).score(i_2)
+
+    ssr.append(-1*score)
+
+    
+
+
+
+ssr
+
+len(km)
+
+print(plt.plot(nc,ssr,"ro-"))
+
+
+
+#########  From elbow method we come to know that no of cluster should be 3.
+
+iris_km=KMeans(n_clusters=3)
+
+iris_km.fit(iris_scaled)
+
+
+
+labels_cluster=iris_km.labels_
+
+lc=pd.DataFrame(labels_cluster)
+
+
+
+new_iris=pd.concat([i_1,lc],axis=1)
+
